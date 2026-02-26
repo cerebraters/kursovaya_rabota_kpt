@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Оформление продаж</h1>
+
+<div class="card">
+    <h3>Новая продажа</h3>
+    <form action="/sales/add" method="POST" class="add-form">
+        <select name="product_id" required>
+            <option value="">Выберите товар</option>
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }} - {{ product.price }} ₽ (в наличии: {{ product.quantity }})</option>
+            {% endfor %}
+        </select>
+        
+        <select name="customer_id" required>
+            <option value="">Выберите покупателя</option>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <input type="number" name="quantity" placeholder="Количество" min="1" required>
+        <button type="submit">Оформить продажу</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>История продаж</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Товар</th>
+                <th>Покупатель</th>
+                <th>Кол-во</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.sale_date.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td>{{ sale.product.name }}</td>
+                <td>{{ sale.customer.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.total_price }} ₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

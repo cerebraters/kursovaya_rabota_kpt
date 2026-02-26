@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Управление покупателями</h1>
+
+<div class="card">
+    <h3>Добавить нового покупателя</h3>
+    <form action="/customers/add" method="POST" class="add-form">
+        <input type="text" name="name" placeholder="ФИО" required>
+        <input type="text" name="phone" placeholder="Телефон">
+        <input type="email" name="email" placeholder="Email">
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Список покупателей</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Email</th>
+                <th>Дата регистрации</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.phone or '-' }}</td>
+                <td>{{ customer.email or '-' }}</td>
+                <td>{{ customer.created_at.strftime('%d.%m.%Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

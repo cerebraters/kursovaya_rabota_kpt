@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Главная страница</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Товаров</h3>
+        <p class="stat-number">{{ total_products }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Покупателей</h3>
+        <p class="stat-number">{{ total_customers }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Продаж</h3>
+        <p class="stat-number">{{ total_sales }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Выручка сегодня</h3>
+        <p class="stat-number">{{ today_revenue }} ₽</p>
+    </div>
+</div>
+
+<div class="info-section">
+    <h2>Добро пожаловать в информационную систему!</h2>
+    <p>Здесь вы можете управлять товарами, покупателями, оформлять продажи и формировать отчеты.</p>
+    <p>Используйте меню навигации для работы с системой.</p>
+</div>
+{% endblock %}

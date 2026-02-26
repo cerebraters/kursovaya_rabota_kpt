@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Отчеты за период</h1>
+
+<div class="card">
+    <h3>Выберите период</h3>
+    <form method="POST" class="add-form">
+        <label>Начальная дата:</label>
+        <input type="date" name="start_date" required>
+        
+        <label>Конечная дата:</label>
+        <input type="date" name="end_date" required>
+        
+        <button type="submit">Сформировать отчет</button>
+    </form>
+</div>
+
+{% if report %}
+<div class="card">
+    <h3>Отчет за период с {{ report.start_date }} по {{ report.end_date }}</h3>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h4>Всего продаж</h4>
+            <p class="stat-number">{{ report.total_sales }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h4>Общая выручка</h4>
+            <p class="stat-number">{{ report.total_revenue }} ₽</p>
+        </div>
+    </div>
+    
+    <h4>Статистика по товарам</h4>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Продано (шт)</th>
+                <th>Выручка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product, stats in report.product_stats.items() %}
+            <tr>
+                <td>{{ product }}</td>
+                <td>{{ stats.quantity }}</td>
+                <td>{{ stats.revenue }} ₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h4>Детализация продаж</h4>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Товар</th>
+                <th>Покупатель</th>
+                <th>Кол-во</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in report.sales %}
+            <tr>
+                <td>{{ sale.sale_date.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td>{{ sale.product.name }}</td>
+                <td>{{ sale.customer.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.total_price }} ₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
