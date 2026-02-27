@@ -16,6 +16,11 @@
                 <li><a href="/customers">Покупатели</a></li>
                 <li><a href="/sales">Продажи</a></li>
                 <li><a href="/reports">Отчеты</a></li>
+                {% if session.user_role == 'admin' %}
+                <li><a href="/users">Пользователи</a></li>
+                {% endif %}
+                <li><span class="user-info">{{ session.username }} ({{ session.user_role }})</span></li>
+                <li><a href="/logout" class="logout-btn">Выйти</a></li>
             </ul>
         </div>
     </nav>

@@ -165,7 +165,40 @@ body {
     background-color: #dc3545;
     color: white;
 }
+.btn-edit {
+    color: #28a745;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #28a745;
+    border-radius: 4px;
+    transition: all 0.3s;
+    margin-right: 5px;
+}
 
+.btn-edit:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+.text-muted {
+    color: #999;
+    font-style: italic;
+}
+
+.user-info {
+    color: white;
+    padding: 5px 10px;
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.logout-btn {
+    background-color: #dc3545 !important;
+}
+
+.logout-btn:hover {
+    background-color: #c82333 !important;
+}
 /* Уведомления */
 .alert {
     padding: 12px 20px;

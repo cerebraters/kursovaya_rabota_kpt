@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Управление пользователями</h1>
+
+<div class="card">
+    <h3>Добавить нового пользователя</h3>
+    <form action="/users/add" method="POST" class="add-form">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <select name="role" required>
+            <option value="">Выберите роль</option>
+            <option value="admin">Администратор</option>
+            <option value="manager">Менеджер</option>
+            <option value="storekeeper">Кладовщик</option>
+        </select>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Список пользователей</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя пользователя</th>
+                <th>Роль</th>
+                <th>Дата создания</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>
+                    {% if user.role == 'admin' %}
+                        <span class="badge badge-admin">Администратор</span>
+                    {% elif user.role == 'manager' %}
+                        <span class="badge badge-manager">Менеджер</span>
+                    {% else %}
+                        <span class="badge badge-storekeeper">Кладовщик</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.created_at.strftime('%d.%m.%Y') }}</td>
+                <td>
+                    <a href="/users/edit/{{ user.id }}" class="btn-edit">✏️ Редактировать</a>
+                    {% if user.id != session.user_id %}
+                    <a href="/users/delete/{{ user.id }}" 
+                       class="btn-delete" 
+                       onclick="return confirm('Удалить пользователя?')">🗑️ Удалить</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .badge {
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .badge-admin {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .badge-manager {
+        background-color: #ffc107;
+        color: black;
+    }
+    
+    .badge-storekeeper {
+        background-color: #17a2b8;
+        color: white;
+    }
+</style>
+{% endblock %}

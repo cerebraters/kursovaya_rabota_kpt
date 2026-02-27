@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Управление товарами</h1>
 
+{% if user_role in ['admin', 'manager'] %}
 <div class="card">
     <h3>Добавить новый товар</h3>
     <form action="/products/add" method="POST" class="add-form">
@@ -12,6 +13,7 @@
         <button type="submit">Добавить</button>
     </form>
 </div>
+{% endif %}
 
 <div class="card">
     <h3>Список товаров</h3>
@@ -22,6 +24,7 @@
                 <th>Название</th>
                 <th>Цена</th>
                 <th>В наличии</th>
+                <th>Дата добавления</th>
                 <th>Действия</th>
             </tr>
         </thead>
@@ -32,10 +35,21 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }} ₽</td>
                 <td>{{ product.quantity }}</td>
+                <td>{{ product.created_at.strftime('%d.%m.%Y') }}</td>
                 <td>
+                    {% if user_role in ['admin', 'manager'] %}
+                    <a href="/products/edit/{{ product.id }}" class="btn-edit">✏️ Редактировать</a>
+                    {% endif %}
+                    
+                    {% if user_role == 'admin' %}
                     <a href="/products/delete/{{ product.id }}" 
                        class="btn-delete" 
-                       onclick="return confirm('Удалить товар?')">Удалить</a>
+                       onclick="return confirm('Удалить товар?')">🗑️ Удалить</a>
+                    {% endif %}
+                    
+                    {% if user_role == 'storekeeper' %}
+                    <span class="text-muted">Только просмотр</span>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
